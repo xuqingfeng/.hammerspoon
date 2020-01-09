@@ -1,5 +1,7 @@
 -- Window management
 
+local obj={}
+
 -- Defines for window maximize toggler
 local frameCache = {}
 local logger = hs.logger.new("windows")
@@ -150,3 +152,5 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Up",    hs.fnutils.partial(winresize, "m
 -- Move between screens
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left",  hs.fnutils.partial(winmovescreen, "left"))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", hs.fnutils.partial(winmovescreen, "right"))
+
+return obj
