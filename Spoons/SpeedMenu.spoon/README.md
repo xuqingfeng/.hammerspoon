@@ -1,0 +1,1 @@
+https://github.com/ashfinal/awesome-hammerspoon/blob/master/Spoons/SpeedMenu.spoon
