@@ -25,23 +25,23 @@ local function data_diff()
     local in_diff = in_seq - obj.inseq
     local out_diff = out_seq - obj.outseq
     if in_diff/1024 > 1024 then
-        obj.kbin = string.format("%6.2f", in_diff/1024/1024) .. ' mB/s'
+        obj.kbin = string.format("%6.2f", in_diff/1024/1024) .. ' MB/s'
     else
-        obj.kbin = string.format("%6.2f", in_diff/1024) .. ' kB/s'
+        obj.kbin = string.format("%6.2f", in_diff/1024) .. ' KB/s'
     end
     if out_diff/1024 > 1024 then
-        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' mB/s'
+        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' KB/s'
     else
-        obj.kbout = string.format("%6.2f", out_diff/1024) .. ' kB/s'
+        obj.kbout = string.format("%6.2f", out_diff/1024) .. ' KB/s'
     end
     -- local disp_str = '↑' .. obj.kbout .. '\n↓' .. obj.kbin
     local disp_str = '↓' .. obj.kbin
     if obj.darkmode then
-        -- obj.disp_str = hs.styledtext.new(disp_str, {font={size=10.0, color={hex="#FFFFFF"}}})
-        obj.disp_str = hs.styledtext.new(disp_str, {})
+        obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0, color={hex="#FFFFFF"}}})
+        -- obj.disp_str = hs.styledtext.new(disp_str, {})
     else
-        -- obj.disp_str = hs.styledtext.new(disp_str, {font={size=10.0, color={hex="#000000"}}})
-        obj.disp_str = hs.styledtext.new(disp_str, {})
+        obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0, color={hex="#000000"}}})
+        -- obj.disp_str = hs.styledtext.new(disp_str, {})
     end
     obj.menubar:setTitle(obj.disp_str)
     obj.inseq = in_seq
