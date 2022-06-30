@@ -17,6 +17,13 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 function obj:init()
     self.menubar = hs.menubar.new()
     obj:rescan()
+
+    if obj.rescanTimer then
+        obj.rescanTimer:stop()
+        obj.rescanTimer = nil
+    end
+    -- rescan network interface every 60*60 seconds
+    obj.rescanTimer = hs.timer.doEvery(3600, function() obj:rescan() end)
 end
 
 local function data_diff()
