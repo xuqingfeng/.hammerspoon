@@ -1,1 +1,1 @@
-https://github.com/wangshub/hammerspoon-config/tree/master/window
+Window resize hotkeys based on https://github.com/wangshub/hammerspoon-config/tree/master/window with some custom changes
