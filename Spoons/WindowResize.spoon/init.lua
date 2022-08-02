@@ -50,6 +50,43 @@ function winmovescreen(how)
    end
 end
 
+-- Resize screen by quarter - https://medium.com/@jhkuperus/window-management-with-hammerspoon-personal-productivity-c77adc436888
+local GRID_SIZE = 4
+local HALF_GRID_SIZE = GRID_SIZE / 2
+local screenPositions = {}
+screenPositions.topLeft     = {
+   x = 0, y = 0,
+   w = HALF_GRID_SIZE, h = HALF_GRID_SIZE
+ }
+ screenPositions.topRight    = {
+   x = HALF_GRID_SIZE, y = 0,
+   w = HALF_GRID_SIZE, h = HALF_GRID_SIZE
+ }
+ screenPositions.bottomLeft  = {
+   x = 0, y = HALF_GRID_SIZE,
+   w = HALF_GRID_SIZE, h = HALF_GRID_SIZE
+ }
+ screenPositions.bottomRight = {
+   x = HALF_GRID_SIZE, y = HALF_GRID_SIZE,
+   w = HALF_GRID_SIZE, h = HALF_GRID_SIZE
+ }
+hs.grid.setGrid(GRID_SIZE .. 'x' .. GRID_SIZE)
+hs.grid.setMargins({0, 0})
+hs.window.animationDuration = 0
+function winresize2(how)
+   local win = hs.window.focusedWindow()
+   local screen = win:screen()
+   if how == "top-left" then
+      hs.grid.set(win, screenPositions.topLeft, screen)
+   elseif how == "top-right" then
+      hs.grid.set(win, screenPositions.topRight, screen)
+   elseif how == "bottom-left" then
+      hs.grid.set(win, screenPositions.bottomLeft, screen)
+   elseif how == "bottom-right" then
+      hs.grid.set(win, screenPositions.bottomRight, screen)
+   end
+end
+
 -- Toggle a window between its normal size, and being maximized
 function toggle_window_maximized()
    local win = hs.window.focusedWindow()
@@ -135,6 +172,12 @@ hs.hotkey.bind({"ctrl","cmd"}, "Left",  hs.fnutils.partial(winresize, "left"))
 hs.hotkey.bind({"ctrl","cmd"}, "Right", hs.fnutils.partial(winresize, "right"))
 hs.hotkey.bind({"ctrl","cmd"}, "Up",    hs.fnutils.partial(winresize, "up"))
 hs.hotkey.bind({"ctrl","cmd"}, "Down",  hs.fnutils.partial(winresize, "down"))
+
+-- Quarter of the screen
+hs.hotkey.bind({"ctrl","cmd"}, "1",  hs.fnutils.partial(winresize2, "top-left"))
+hs.hotkey.bind({"ctrl","cmd"}, "2",  hs.fnutils.partial(winresize2, "top-right"))
+hs.hotkey.bind({"ctrl","cmd"}, "3",  hs.fnutils.partial(winresize2, "bottom-left"))
+hs.hotkey.bind({"ctrl","cmd"}, "4",  hs.fnutils.partial(winresize2, "bottom-right"))
 
 -- Center of the screen
 hs.hotkey.bind({"ctrl", "cmd"}, "C", center)
