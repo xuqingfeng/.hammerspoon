@@ -40,7 +40,7 @@ function winresize(how)
     win:move(newrect)
 end
 
-function winmovescreen(how)
+function win_move_screen_between_monitors(how)
     local win = hs.window.focusedWindow()
     if how == "left" then
         win:moveOneScreenWest()
@@ -80,7 +80,7 @@ screenPositions.bottomRight = {
 hs.grid.setGrid(GRID_SIZE .. 'x' .. GRID_SIZE)
 hs.grid.setMargins({0, 0})
 hs.window.animationDuration = 0
-function winresize2(how)
+function win_resize_2(how)
     local win = hs.window.focusedWindow()
     local screen = win:screen()
     if how == "top-left" then
@@ -181,10 +181,10 @@ hs.hotkey.bind({"ctrl", "cmd"}, "Up", hs.fnutils.partial(winresize, "up"))
 hs.hotkey.bind({"ctrl", "cmd"}, "Down", hs.fnutils.partial(winresize, "down"))
 
 -- Quarter of the screen
-hs.hotkey.bind({"ctrl", "cmd"}, "1", hs.fnutils.partial(winresize2, "top-left"))
-hs.hotkey.bind({"ctrl", "cmd"}, "2", hs.fnutils.partial(winresize2, "top-right"))
-hs.hotkey.bind({"ctrl", "cmd"}, "3", hs.fnutils.partial(winresize2, "bottom-left"))
-hs.hotkey.bind({"ctrl", "cmd"}, "4", hs.fnutils.partial(winresize2, "bottom-right"))
+hs.hotkey.bind({"ctrl", "cmd"}, "1", hs.fnutils.partial(win_resize_2, "top-left"))
+hs.hotkey.bind({"ctrl", "cmd"}, "2", hs.fnutils.partial(win_resize_2, "top-right"))
+hs.hotkey.bind({"ctrl", "cmd"}, "3", hs.fnutils.partial(win_resize_2, "bottom-left"))
+hs.hotkey.bind({"ctrl", "cmd"}, "4", hs.fnutils.partial(win_resize_2, "bottom-right"))
 
 -- Center of the screen
 hs.hotkey.bind({"ctrl", "cmd"}, "C", center)
@@ -199,8 +199,8 @@ hs.hotkey.bind({"ctrl", "alt"}, "Down", down_third)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "F", hs.fnutils.partial(winresize, "max"))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Up", hs.fnutils.partial(winresize, "max"))
 
--- Move between screens
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", hs.fnutils.partial(winmovescreen, "left"))
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", hs.fnutils.partial(winmovescreen, "right"))
+-- Move between monitors
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Left", hs.fnutils.partial(win_move_screen_between_monitors, "left"))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Right", hs.fnutils.partial(win_move_screen_between_monitors, "right"))
 
 return obj
