@@ -1,6 +1,6 @@
 hs.loadSpoon('SpeedMenu')
 hs.loadSpoon('WindowResize')
-hs.loadSpoon('WindowListener')
+hs.loadSpoon('WindowHighlight')
 
 hs.hotkey.bind({'ctrl', 'cmd'}, 'R', function()
 	hs.reload()
