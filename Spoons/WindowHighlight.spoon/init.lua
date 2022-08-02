@@ -3,14 +3,10 @@ local obj = {}
 
 hs.window.highlight.ui.overlayColor = {0, 0, 0, 0.01} -- overlay color
 hs.window.highlight.ui.overlay = false
-hs.window.highlight.ui.frameWidth = 10 -- draw a frame around the focused window in overlay mode; 0 to disable
+hs.window.highlight.ui.frameWidth = 6 -- draw a frame around the focused window in overlay mode; 0 to disable
+hs.window.highlight.ui.frameColor = {1, 0, 0, 0.8}
 hs.window.highlight.start()
 
--- Toggle on fullscreen toggle
-hs.window.filter.default:subscribe(hs.window.filter.hasNoWindows, function(window, appName)
-    -- hs.alert("hasNoWindows")
-    -- hs.window.highlight.ui.overlay = false
-end)
 hs.window.filter.default:subscribe(hs.window.filter.windowFullscreened, function(window, appName)
     hs.window.highlight.ui.overlay = false
 end)
