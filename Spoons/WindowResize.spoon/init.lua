@@ -52,6 +52,7 @@ end
 -- Resize screen by quarter - https://medium.com/@jhkuperus/window-management-with-hammerspoon-personal-productivity-c77adc436888
 local GRID_SIZE = 4
 local HALF_GRID_SIZE = GRID_SIZE / 2
+local ONE_THRIDS_GRID_SIZE = GRID_SIZE * 1 / 3
 local screenPositions = {}
 screenPositions.topLeft = {
     x = 0,
@@ -77,6 +78,12 @@ screenPositions.bottomRight = {
     w = HALF_GRID_SIZE,
     h = HALF_GRID_SIZE
 }
+screenPositions.oneThirdsCenter = {
+    x = ONE_THRIDS_GRID_SIZE / 2,
+    y = 0,
+    w = ONE_THRIDS_GRID_SIZE * 2,
+    h = GRID_SIZE
+}
 hs.grid.setGrid(GRID_SIZE .. 'x' .. GRID_SIZE)
 hs.grid.setMargins({0, 0})
 hs.window.animationDuration = 0
@@ -91,6 +98,8 @@ function win_resize_2(how)
         hs.grid.set(win, screenPositions.bottomLeft, screen)
     elseif how == "bottom-right" then
         hs.grid.set(win, screenPositions.bottomRight, screen)
+    elseif how == "one-thirds-center" then
+        hs.grid.set(win, screenPositions.oneThirdsCenter, screen)
     end
 end
 
@@ -185,6 +194,7 @@ hs.hotkey.bind({"ctrl", "cmd"}, "1", hs.fnutils.partial(win_resize_2, "top-left"
 hs.hotkey.bind({"ctrl", "cmd"}, "2", hs.fnutils.partial(win_resize_2, "top-right"))
 hs.hotkey.bind({"ctrl", "cmd"}, "3", hs.fnutils.partial(win_resize_2, "bottom-left"))
 hs.hotkey.bind({"ctrl", "cmd"}, "4", hs.fnutils.partial(win_resize_2, "bottom-right"))
+hs.hotkey.bind({"ctrl", "cmd"}, "5", hs.fnutils.partial(win_resize_2, "one-thirds-center"))
 
 -- Center of the screen
 hs.hotkey.bind({"ctrl", "cmd"}, "C", center)
