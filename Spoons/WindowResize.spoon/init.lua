@@ -194,7 +194,7 @@ hs.hotkey.bind({"ctrl", "cmd"}, "1", hs.fnutils.partial(win_resize_2, "top-left"
 hs.hotkey.bind({"ctrl", "cmd"}, "2", hs.fnutils.partial(win_resize_2, "top-right"))
 hs.hotkey.bind({"ctrl", "cmd"}, "3", hs.fnutils.partial(win_resize_2, "bottom-left"))
 hs.hotkey.bind({"ctrl", "cmd"}, "4", hs.fnutils.partial(win_resize_2, "bottom-right"))
-hs.hotkey.bind({"ctrl", "cmd"}, "5", hs.fnutils.partial(win_resize_2, "one-thirds-center"))
+hs.hotkey.bind({"ctrl", "cmd"}, "w", hs.fnutils.partial(win_resize_2, "one-thirds-center")) -- w: wider
 
 -- Center of the screen
 hs.hotkey.bind({"ctrl", "cmd"}, "C", center)
