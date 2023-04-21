@@ -3,7 +3,7 @@ local obj = {}
 
 -- Defines for window maximize toggler
 local frameCache = {}
-local logger = hs.logger.new("windows")
+local logger = hs.logger.new("windows", "debug")
 
 -- Resize current window
 

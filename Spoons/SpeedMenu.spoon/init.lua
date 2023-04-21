@@ -14,6 +14,9 @@ obj.author = "ashfinal <ashfinal@gmail.com>"
 obj.homepage = "https://github.com/Hammerspoon/Spoons"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
+local logger = hs.logger.new("speed", "debug")
+local USE_INTERFACE_EN0 = true
+
 function obj:init()
     self.menubar = hs.menubar.new()
     obj:rescan()
@@ -62,6 +65,11 @@ end
 
 function obj:rescan()
     obj.interface = hs.network.primaryInterfaces()
+    logger.df("I! interface: %s", obj.interface)
+    if USE_INTERFACE_EN0 then
+        -- hard code interface: en0
+        obj.interface = "en0"
+    end
     obj.darkmode = hs.osascript.applescript('tell application "System Events"\nreturn dark mode of appearance preferences\nend tell')
     local menuitems_table = {}
     if obj.interface then
