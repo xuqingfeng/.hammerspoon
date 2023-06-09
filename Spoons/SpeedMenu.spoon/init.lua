@@ -25,8 +25,8 @@ function obj:init()
         obj.rescanTimer:stop()
         obj.rescanTimer = nil
     end
-    -- rescan network interface every 60*60 seconds
-    obj.rescanTimer = hs.timer.doEvery(3600, function() obj:rescan() end)
+    -- rescan network interface every 6 hours
+    obj.rescanTimer = hs.timer.doEvery(21600, function() obj:rescan() end)
 end
 
 local function data_diff()
