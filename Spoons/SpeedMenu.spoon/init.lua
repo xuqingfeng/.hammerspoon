@@ -29,6 +29,8 @@ function obj:init()
     obj.rescanTimer = hs.timer.doEvery(21600, function() obj:rescan() end)
 end
 
+local function isDarkMode() return hs.execute("defaults read -g AppleInterfaceStyle") == "Dark\n" end
+
 local function data_diff()
     local in_seq = hs.execute(obj.instr)
     local out_seq = hs.execute(obj.outstr)
@@ -47,7 +49,7 @@ local function data_diff()
     -- local disp_str = '↓' .. obj.kbin .. ' ↑'.. obj.kbout
     -- FIXME: obj.kbout not accurate
     local disp_str = '↓' .. obj.kbin
-    if obj.darkmode then
+    if isDarkMode() then
         obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}, color={hex="#FFFFFF"}})
     else
         obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}, color={hex="#000000"}})
@@ -63,13 +65,14 @@ end
 ---
 
 function obj:rescan()
+
     obj.interface = hs.network.primaryInterfaces()
     logger.df("I! interface: %s", obj.interface)
     if USE_INTERFACE_EN0 then
         -- hard code interface: en0
         obj.interface = "en0"
     end
-    obj.darkmode = hs.osascript.applescript('tell application "System Events"\nreturn dark mode of appearance preferences\nend tell')
+
     local menuitems_table = {}
     if obj.interface then
         -- Inspect active interface and create menuitems
