@@ -1,7 +1,7 @@
-## My Personal Spoons :hammer:
+## Personal Hammerspoon Collection
 
-### How to setup
+### Setup
 
-- install hammerspoon `brew install --cask hammerspoon`
+- install hammerspoon: `brew install hammerspoon`
 
-- clone config files `git clone git@github.com:xuqingfeng/.hammerspoon.git ~/.hammerspoon`
+- clone this repo: `git clone git@github.com:xuqingfeng/.hammerspoon.git ~/.hammerspoon`
