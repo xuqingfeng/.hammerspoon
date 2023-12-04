@@ -20,6 +20,8 @@
 
 `ctrl + cmd + W` - one thrids center
 
-`ctrl + cmd + F` - max screen
+`ctrl + cmd + F` - full screen
+
+`ctrl + option + cmd + F` - max screen
 
 Inspired by: https://github.com/wangshub/hammerspoon-config/tree/master/window
