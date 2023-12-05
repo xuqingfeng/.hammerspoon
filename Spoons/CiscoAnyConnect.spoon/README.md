@@ -1,6 +1,6 @@
 ### CiscoAnyConnect
 
-shortcut for connecting to Cisco AnyConnect automaticly
+`ctrl + cmd + V` - connecting to Cisco AnyConnect automaticly
 
 *NOTES:*
 
