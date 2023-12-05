@@ -1,3 +1,6 @@
+require("config")
+
+hs.loadSpoon('CiscoAnyConnect')
 hs.loadSpoon('DarkMode')
 hs.loadSpoon('SpeedMenu')
 hs.loadSpoon('WindowHighlight')

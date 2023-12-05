@@ -1,8 +1,10 @@
-local obj={}
+local obj = {}
 
 local logger = hs.logger.new("windows", "debug")
 
-function isDarkMode() return hs.execute("defaults read -g AppleInterfaceStyle") == "Dark\n" end
+function isDarkMode()
+    return hs.execute("defaults read -g AppleInterfaceStyle") == "Dark\n"
+end
 
 function setDarkDode()
     if isDarkMode() then
