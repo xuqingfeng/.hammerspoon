@@ -1,4 +1,4 @@
-## Personal Hammerspoon Collection
+## Personal Spoons
 
 ### [CiscoAnyConnect](./Spoons/CiscoAnyConnect.spoon/)
 
