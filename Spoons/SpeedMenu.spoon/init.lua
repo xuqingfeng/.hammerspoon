@@ -29,8 +29,6 @@ function obj:init()
     obj.rescanTimer = hs.timer.doEvery(21600, function() obj:rescan() end)
 end
 
-local function isDarkMode() return hs.execute("defaults read -g AppleInterfaceStyle") == "Dark\n" end
-
 local function data_diff()
     local in_seq = hs.execute(obj.instr)
     local out_seq = hs.execute(obj.outstr)
@@ -49,11 +47,7 @@ local function data_diff()
     -- local disp_str = '↓' .. obj.kbin .. ' ↑'.. obj.kbout
     -- FIXME: obj.kbout not accurate
     local disp_str = '↓' .. obj.kbin
-    if isDarkMode() then
-        obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}, color={hex="#FFFFFF"}})
-    else
-        obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}, color={hex="#000000"}})
-    end
+    obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}})
     obj.menubar:setTitle(obj.disp_str)
     obj.inseq = in_seq
     obj.outseq = out_seq
@@ -61,7 +55,7 @@ end
 
 --- SpeedMenu:rescan()
 --- Method
---- Redetect the active interface, darkmode …And redraw everything.
+--- Redetect the active interface and redraw everything.
 ---
 
 function obj:rescan()
