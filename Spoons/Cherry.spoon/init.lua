@@ -25,7 +25,7 @@ obj.alwaysShow = true
 
 -- duration in seconds for alert to stay on screen
 -- set to 0 to turn off alert completely
-obj.alertDuration = 5
+obj.alertDuration = 0
 
 -- Font size for alert
 obj.alertTextSize = 80
@@ -35,8 +35,8 @@ obj.notification = nil
 -- obj.notification = hs.notify.new({ title = "Done! 🍒", withdrawAfter = 0})
 
 -- set to nil to turn off notification sound when time's up or provide a hs.sound
-obj.sound = nil
--- obj.sound = hs.sound.getByFile("System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/Sounds")
+-- obj.sound = nil
+obj.sound = hs.sound.getByFile("/System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/Sounds/Alert.aiff")
 
 obj.defaultMapping = {
   start = {{"cmd", "ctrl", "alt"}, "C"}
