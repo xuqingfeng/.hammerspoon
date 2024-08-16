@@ -1,5 +1,6 @@
 require("config")
 
+hs.loadSpoon('Cherry')
 hs.loadSpoon('CiscoAnyConnect')
 hs.loadSpoon('DarkMode')
 hs.loadSpoon('SpeedMenu')
