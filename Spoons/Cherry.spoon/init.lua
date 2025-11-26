@@ -65,6 +65,7 @@ end
 
 function obj:init()
   self.menu = hs.menubar.new(self.alwaysShow)
+  self.menu:autosaveName("xuqingfeng.cherry")
   self:reset()
 end
 

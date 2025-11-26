@@ -19,6 +19,7 @@ local USE_INTERFACE_EN0 = true
 
 function obj:init()
     self.menubar = hs.menubar.new()
+    self.menubar:autosaveName("xuqingfeng.speedmenu")
     obj:rescan()
 
     if obj.rescanTimer then
