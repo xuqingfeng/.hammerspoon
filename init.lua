@@ -4,7 +4,6 @@ hs.loadSpoon('Cherry')
 hs.loadSpoon('CiscoAnyConnect')
 hs.loadSpoon('DarkMode')
 hs.loadSpoon('SpeedMenu')
-hs.loadSpoon('WindowHighlight')
 hs.loadSpoon('WindowResize')
 
 hs.hotkey.bind({'ctrl', 'cmd'}, 'R', function()
