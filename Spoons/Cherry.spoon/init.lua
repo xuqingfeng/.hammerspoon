@@ -18,7 +18,7 @@ obj.homepage = "https://github.com/Hammerspoon/Spoons"
 -- Settings
 
 -- timer duration in minutes
-obj.duration = 25
+obj.duration = 30
 
 -- set this to true to always show the menubar item
 obj.alwaysShow = true
