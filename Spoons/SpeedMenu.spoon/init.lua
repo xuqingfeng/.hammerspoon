@@ -30,6 +30,11 @@ local function detectActiveInterface()
     return interface, connectionType
 end
 
+local function executeNumber(cmd)
+    local output = hs.execute(cmd)
+    return tonumber(output) or 0
+end
+
 local function requestLocationPermissionIfNeeded()
     -- macOS Sonoma+ requires Location Services to read WiFi SSID
     if not hs.location or not hs.location.servicesEnabled() then return end
@@ -77,8 +82,8 @@ function obj:init()
 end
 
 local function data_diff()
-    local in_seq = hs.execute(obj.instr)
-    local out_seq = hs.execute(obj.outstr)
+    local in_seq = executeNumber(obj.instr)
+    local out_seq = executeNumber(obj.outstr)
     local in_diff = in_seq - obj.inseq
     local out_diff = out_seq - obj.outseq
     if in_diff/1024 > 1024 then
@@ -87,7 +92,7 @@ local function data_diff()
         obj.kbin = string.format("%6.2f", in_diff/1024) .. ' KB/s'
     end
     if out_diff/1024 > 1024 then
-        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' KB/s'
+        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' MB/s'
     else
         obj.kbout = string.format("%6.2f", out_diff/1024) .. ' KB/s'
     end
@@ -152,20 +157,25 @@ function obj:rescan()
         obj.instr = 'netstat -ibn | grep -e ' .. obj.interface .. ' -m 1 | awk \'{print $7}\''
         obj.outstr = 'netstat -ibn | grep -e ' .. obj.interface .. ' -m 1 | awk \'{print $10}\''
 
-        obj.inseq = hs.execute(obj.instr)
-        obj.outseq = hs.execute(obj.outstr)
+        obj.inseq = executeNumber(obj.instr)
+        obj.outseq = executeNumber(obj.outstr)
 
         if obj.timer then
             obj.timer:stop()
             obj.timer = nil
         end
         obj.timer = hs.timer.doEvery(1, data_diff)
+    else
+        if obj.timer then
+            obj.timer:stop()
+            obj.timer = nil
+        end
+        obj.menubar:setTitle("⚠︎")
     end
     table.insert(menuitems_table, {
         title = "Rescan Network Interfaces",
         fn = function() obj:rescan() end
     })
-    obj.menubar:setTitle("⚠︎")
     obj.menubar:setMenu(menuitems_table)
 end
 
