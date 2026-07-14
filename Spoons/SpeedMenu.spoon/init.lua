@@ -35,15 +35,15 @@ local function executeNumber(cmd)
     return tonumber(output) or 0
 end
 
-local function requestLocationPermissionIfNeeded()
+local function requestLocationPermissionIfNeeded(self)
     -- macOS Sonoma+ requires Location Services to read WiFi SSID
     if not hs.location or not hs.location.servicesEnabled() then return end
-    if obj.locationRequested then return end
-    obj.locationRequested = true
+    if self.locationRequested then return end
+    self.locationRequested = true
     hs.location.start()
     hs.timer.doAfter(2, function()
         hs.location.stop()
-        obj:rescan()
+        self:rescan()
     end)
 end
 
@@ -70,39 +70,39 @@ end
 function obj:init()
     self.menubar = hs.menubar.new()
     self.menubar:autosaveName("xuqingfeng.speedmenu")
-    requestLocationPermissionIfNeeded()
-    obj:rescan()
+    requestLocationPermissionIfNeeded(self)
+    self:rescan()
 
-    if obj.rescanTimer then
-        obj.rescanTimer:stop()
-        obj.rescanTimer = nil
+    if self.rescanTimer then
+        self.rescanTimer:stop()
+        self.rescanTimer = nil
     end
     -- rescan network interface every 6 hours
-    obj.rescanTimer = hs.timer.doEvery(21600, function() obj:rescan() end)
+    self.rescanTimer = hs.timer.doEvery(21600, function() self:rescan() end)
 end
 
-local function data_diff()
-    local in_seq = executeNumber(obj.instr)
-    local out_seq = executeNumber(obj.outstr)
-    local in_diff = in_seq - obj.inseq
-    local out_diff = out_seq - obj.outseq
+local function data_diff(self)
+    local in_seq = executeNumber(self.instr)
+    local out_seq = executeNumber(self.outstr)
+    local in_diff = in_seq - self.inseq
+    local out_diff = out_seq - self.outseq
     if in_diff/1024 > 1024 then
-        obj.kbin = string.format("%6.2f", in_diff/1024/1024) .. ' MB/s'
+        self.kbin = string.format("%6.2f", in_diff/1024/1024) .. ' MB/s'
     else
-        obj.kbin = string.format("%6.2f", in_diff/1024) .. ' KB/s'
+        self.kbin = string.format("%6.2f", in_diff/1024) .. ' KB/s'
     end
     if out_diff/1024 > 1024 then
-        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' MB/s'
+        self.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' MB/s'
     else
-        obj.kbout = string.format("%6.2f", out_diff/1024) .. ' KB/s'
+        self.kbout = string.format("%6.2f", out_diff/1024) .. ' KB/s'
     end
-    -- local disp_str = '↓' .. obj.kbin .. ' ↑'.. obj.kbout
-    -- FIXME: obj.kbout not accurate
-    local disp_str = '↓' .. obj.kbin
-    obj.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}})
-    obj.menubar:setTitle(obj.disp_str)
-    obj.inseq = in_seq
-    obj.outseq = out_seq
+    -- local disp_str = '↓' .. self.kbin .. ' ↑'.. self.kbout
+    -- FIXME: self.kbout not accurate
+    local disp_str = '↓' .. self.kbin
+    self.disp_str = hs.styledtext.new(disp_str, {font={size=12.0}})
+    self.menubar:setTitle(self.disp_str)
+    self.inseq = in_seq
+    self.outseq = out_seq
 end
 
 --- SpeedMenu:rescan()
@@ -112,18 +112,18 @@ end
 
 function obj:rescan()
 
-    obj.interface, obj.connectionType = detectActiveInterface()
-    logger.df("I! interface: %s (%s)", obj.interface, obj.connectionType or "unknown")
+    self.interface, self.connectionType = detectActiveInterface()
+    logger.df("I! interface: %s (%s)", self.interface, self.connectionType or "unknown")
 
     local menuitems_table = {}
-    if obj.interface then
+    if self.interface then
         -- Inspect active interface and create menuitems
-        local interface_detail = hs.network.interfaceDetails(obj.interface)
-        local connectionLabel = obj.connectionType == "wifi" and "WiFi" or "Ethernet"
+        local interface_detail = hs.network.interfaceDetails(self.interface)
+        local connectionLabel = self.connectionType == "wifi" and "WiFi" or "Ethernet"
         table.insert(menuitems_table, {
-            title = "Connection: " .. connectionLabel .. " (" .. obj.interface .. ")",
+            title = "Connection: " .. connectionLabel .. " (" .. self.interface .. ")",
         })
-        local ssid = obj.connectionType == "wifi" and getSSID(obj.interface)
+        local ssid = self.connectionType == "wifi" and getSSID(self.interface)
         if ssid then
             table.insert(menuitems_table, {
                 title = "SSID: " .. ssid,
@@ -147,36 +147,36 @@ function obj:rescan()
                 fn = function() hs.pasteboard.setContents(ipv6) end
             })
         end
-        local macaddr = hs.execute('ifconfig ' .. obj.interface .. ' | grep ether | awk \'{print $2}\'')
+        local macaddr = hs.execute('ifconfig ' .. self.interface .. ' | grep ether | awk \'{print $2}\'')
         table.insert(menuitems_table, {
             title = "MAC Addr: " .. macaddr,
             tooltip = "Copy MAC Address to clipboard",
             fn = function() hs.pasteboard.setContents(macaddr) end
         })
         -- Start watching the netspeed delta
-        obj.instr = 'netstat -ibn | grep -e ' .. obj.interface .. ' -m 1 | awk \'{print $7}\''
-        obj.outstr = 'netstat -ibn | grep -e ' .. obj.interface .. ' -m 1 | awk \'{print $10}\''
+        self.instr = 'netstat -ibn | grep -e ' .. self.interface .. ' -m 1 | awk \'{print $7}\''
+        self.outstr = 'netstat -ibn | grep -e ' .. self.interface .. ' -m 1 | awk \'{print $10}\''
 
-        obj.inseq = executeNumber(obj.instr)
-        obj.outseq = executeNumber(obj.outstr)
+        self.inseq = executeNumber(self.instr)
+        self.outseq = executeNumber(self.outstr)
 
-        if obj.timer then
-            obj.timer:stop()
-            obj.timer = nil
+        if self.timer then
+            self.timer:stop()
+            self.timer = nil
         end
-        obj.timer = hs.timer.doEvery(1, data_diff)
+        self.timer = hs.timer.doEvery(1, function() data_diff(self) end)
     else
-        if obj.timer then
-            obj.timer:stop()
-            obj.timer = nil
+        if self.timer then
+            self.timer:stop()
+            self.timer = nil
         end
-        obj.menubar:setTitle("⚠︎")
+        self.menubar:setTitle("⚠︎")
     end
     table.insert(menuitems_table, {
         title = "Rescan Network Interfaces",
-        fn = function() obj:rescan() end
+        fn = function() self:rescan() end
     })
-    obj.menubar:setMenu(menuitems_table)
+    self.menubar:setMenu(menuitems_table)
 end
 
 return obj
