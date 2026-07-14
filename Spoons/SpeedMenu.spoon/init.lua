@@ -15,7 +15,20 @@ obj.homepage = "https://github.com/Hammerspoon/Spoons"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 local logger = hs.logger.new("speed", "debug")
-local USE_INTERFACE_EN0 = true
+
+local function isWifiInterface(interface)
+    if not interface then return false end
+    return hs.fnutils.contains(hs.wifi.interfaces() or {}, interface)
+end
+
+local function detectActiveInterface()
+    local ipv4, ipv6 = hs.network.primaryInterfaces()
+    local interface = ipv4 or ipv6
+    if not interface then return nil, nil end
+
+    local connectionType = isWifiInterface(interface) and "wifi" or "ethernet"
+    return interface, connectionType
+end
 
 local function requestLocationPermissionIfNeeded()
     -- macOS Sonoma+ requires Location Services to read WiFi SSID
@@ -94,18 +107,18 @@ end
 
 function obj:rescan()
 
-    obj.interface = hs.network.primaryInterfaces()
-    logger.df("I! interface: %s", obj.interface)
-    if USE_INTERFACE_EN0 then
-        -- hard code interface: en0
-        obj.interface = "en0"
-    end
+    obj.interface, obj.connectionType = detectActiveInterface()
+    logger.df("I! interface: %s (%s)", obj.interface, obj.connectionType or "unknown")
 
     local menuitems_table = {}
     if obj.interface then
         -- Inspect active interface and create menuitems
         local interface_detail = hs.network.interfaceDetails(obj.interface)
-        local ssid = getSSID(obj.interface)
+        local connectionLabel = obj.connectionType == "wifi" and "WiFi" or "Ethernet"
+        table.insert(menuitems_table, {
+            title = "Connection: " .. connectionLabel .. " (" .. obj.interface .. ")",
+        })
+        local ssid = obj.connectionType == "wifi" and getSSID(obj.interface)
         if ssid then
             table.insert(menuitems_table, {
                 title = "SSID: " .. ssid,
