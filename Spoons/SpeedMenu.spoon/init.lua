@@ -17,9 +17,42 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 local logger = hs.logger.new("speed", "debug")
 local USE_INTERFACE_EN0 = true
 
+local function requestLocationPermissionIfNeeded()
+    -- macOS Sonoma+ requires Location Services to read WiFi SSID
+    if not hs.location or not hs.location.servicesEnabled() then return end
+    if obj.locationRequested then return end
+    obj.locationRequested = true
+    hs.location.start()
+    hs.timer.doAfter(2, function()
+        hs.location.stop()
+        obj:rescan()
+    end)
+end
+
+local function getSSID(interface)
+    local wifiInterfaces = hs.wifi.interfaces() or {}
+    local wifiInterface = interface
+    if not hs.fnutils.contains(wifiInterfaces, wifiInterface) then
+        wifiInterface = wifiInterfaces[1]
+    end
+    if not wifiInterface then return nil end
+
+    local ssid = hs.wifi.currentNetwork(wifiInterface)
+    if not ssid then
+        local details = hs.wifi.interfaceDetails(wifiInterface)
+        ssid = details and details.ssid
+    end
+    if not ssid then
+        local netDetails = hs.network.interfaceDetails(wifiInterface)
+        ssid = netDetails and netDetails.AirPort and netDetails.AirPort.SSID
+    end
+    return ssid
+end
+
 function obj:init()
     self.menubar = hs.menubar.new()
     self.menubar:autosaveName("xuqingfeng.speedmenu")
+    requestLocationPermissionIfNeeded()
     obj:rescan()
 
     if obj.rescanTimer then
@@ -72,8 +105,8 @@ function obj:rescan()
     if obj.interface then
         -- Inspect active interface and create menuitems
         local interface_detail = hs.network.interfaceDetails(obj.interface)
-        if interface_detail.AirPort then
-            local ssid = interface_detail.AirPort.SSID
+        local ssid = getSSID(obj.interface)
+        if ssid then
             table.insert(menuitems_table, {
                 title = "SSID: " .. ssid,
                 tooltip = "Copy SSID to clipboard",
