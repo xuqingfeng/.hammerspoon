@@ -6,6 +6,8 @@
 
 ### [SelectSearch](./Spoons/SelectSearch.spoon/)
 
+<img width="768" height="621" alt="Image" src="https://github.com/user-attachments/assets/bb85e32e-d547-4a80-ab8e-52c9fc7107a1" />
+
 ### [SpeedMenu](./Spoons/SpeedMenu.spoon/)
 
 <img width="99" alt="Snipaste_2023-12-04_16-00-23" src="https://github.com/xuqingfeng/.hammerspoon/assets/3715820/d83d7aa4-c625-4317-90f9-36acbb746a15">
