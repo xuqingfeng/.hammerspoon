@@ -1,5 +1,20 @@
--- ===== Select-Search 划词搜索/翻译 =====
-local selectSearch = {}
+--- === SelectSearch ===
+---
+--- 划词搜索/翻译
+---
+--- Search or translate the selected text in the default browser (⌥⌘S)
+
+local obj = {}
+obj.__index = obj
+
+-- Metadata
+obj.name = "SelectSearch"
+obj.version = "1.0"
+obj.author = "xuqingfeng"
+obj.homepage = "https://github.com/xuqingfeng/.hammerspoon"
+obj.license = "MIT - https://opensource.org/licenses/MIT"
+
+local logger = hs.logger.new("selectSearch", "debug")
 
 -- 暂存并获取选中文本
 local function getSelectedText()
@@ -21,8 +36,16 @@ local actions = {
     { text = "📕 维基百科",    url = "https://zh.wikipedia.org/wiki/" },
 }
 
--- 显示 Chooser
-local function showSelectSearch()
+--- SelectSearch:showSelectSearch()
+--- Method
+--- 弹出 Chooser，对选中的文本执行搜索或翻译。
+---
+--- Parameters:
+---  * None
+---
+--- Returns:
+---  * None
+function obj:showSelectSearch()
     local text = getSelectedText()
     if not text or text == "" then
         hs.alert.show("⚠️ 没有选中文本")
@@ -50,7 +73,10 @@ local function showSelectSearch()
     chooser:show()
 end
 
--- 绑定快捷键 ⌥⌘S
-hs.hotkey.bind({"alt", "cmd"}, "S", showSelectSearch)
+function obj:init()
+    -- 绑定快捷键 ⌥⌘S
+    hs.hotkey.bind({"alt", "cmd"}, "S", function() self:showSelectSearch() end)
+    logger.df("Select-Search 已加载 ⌥⌘S")
+end
 
-hs.alert.show("Select-Search 已加载 ⌥⌘S")
+return obj
