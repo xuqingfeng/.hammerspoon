@@ -3,6 +3,7 @@ require("config")
 hs.loadSpoon('Cherry')
 hs.loadSpoon('CiscoAnyConnect')
 hs.loadSpoon('DarkMode')
+hs.loadSpoon('SelectSearch')
 hs.loadSpoon('WindowResize')
 -- put SpeedMenu the last one
 hs.loadSpoon('SpeedMenu')
