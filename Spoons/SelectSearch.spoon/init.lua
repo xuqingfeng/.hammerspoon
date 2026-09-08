@@ -143,7 +143,7 @@ end
 function obj:init()
     -- bind the hotkey: ⌥⌘S
     hs.hotkey.bind({"alt", "cmd"}, "S", function() self:showSelectSearch() end)
-    logger.df("Select-Search loaded ⌥⌘S")
+    logger.df("SelectSearch loaded ⌥⌘S")
 end
 
 return obj
