@@ -6,7 +6,7 @@
 
 ### [SelectSearch](./Spoons/SelectSearch.spoon/)
 
-<img width="768" height="621" alt="Image" src="https://github.com/user-attachments/assets/bb85e32e-d547-4a80-ab8e-52c9fc7107a1" />
+<img width="450" alt="Image" src="https://github.com/user-attachments/assets/bb85e32e-d547-4a80-ab8e-52c9fc7107a1" />
 
 ### [SpeedMenu](./Spoons/SpeedMenu.spoon/)
 
