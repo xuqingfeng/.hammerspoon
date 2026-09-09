@@ -10,7 +10,7 @@
 
 ### [SpeedMenu](./Spoons/SpeedMenu.spoon/)
 
-<img width="99" alt="Snipaste_2023-12-04_16-00-23" src="https://github.com/xuqingfeng/.hammerspoon/assets/3715820/d83d7aa4-c625-4317-90f9-36acbb746a15">
+<img width="100" alt="Image" src="https://github.com/user-attachments/assets/a7feca35-93cb-4cd2-9669-b88cd78f1fb0" />
 
 ### [WindowHighlight](./Spoons/WindowHighlight.spoon/)
 
@@ -19,8 +19,8 @@
 ### [WindowResize](./Spoons/WindowResize.spoon/)
 
 
-### Setup
+## Setup
 
-- install hammerspoon: `brew install hammerspoon`
+- install hammerspoon: `brew install --cask hammerspoon`
 
 - clone this repo: `git clone git@github.com:xuqingfeng/.hammerspoon.git ~/.hammerspoon`
